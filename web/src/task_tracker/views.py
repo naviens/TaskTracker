@@ -133,6 +133,7 @@ class TaskInfo(generics.RetrieveUpdateDestroyAPIView):
         task = self.get_object()
         serializer = self.serializer_class(task, data=request.data)
         if serializer.is_valid(raise_exception=True):
+            serializer.validated_data['created_by'] = request.user
             serializer.save()
             return Response(
                 data=serializer.data, status=status.HTTP_200_OK)
