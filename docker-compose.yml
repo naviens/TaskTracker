@@ -1,0 +1,21 @@
+db:
+  build: ./postgres/
+  volumes:
+    - /tmp/pgdata:/var/lib/postgresql/data
+  ports:
+    - "5432:5432"
+
+api:
+  build: ./web
+  working_dir: /webapps/rest_app
+  command: /webapps/rest_app/sbin/gunicorn.sh
+  links:
+    - db:db
+  ports:
+    - "8000:8000"
+  entrypoint: /webapps/rest_app/sbin/wait-for-db.sh db
+
+angular:
+  build: ./nginx/
+  ports:
+    - "80:80"
