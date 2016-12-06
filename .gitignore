@@ -80,4 +80,3 @@ lib/
 run/
 lib64*
 web/conf/config.ini
-nginx/static/*
